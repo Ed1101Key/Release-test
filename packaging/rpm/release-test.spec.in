@@ -23,7 +23,7 @@ release-test is a tiny C++ program used for build/release packaging exercises.
 %autosetup -n %{name}-%{version}
 
 %build
-%{__cxx} -O2 -std=c++17 -Wall -Wextra -Werror -Wno-unused-parameter \
+%{__cxx} -O2 -g -std=c++17 -Wall -Wextra -Werror -Wno-unused-parameter \
   src/main.cpp -o %{name} -lfmt
 
 %install
