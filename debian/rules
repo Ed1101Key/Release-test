@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# Strict flags required by the assignment.
+# We cannot change src/, so suppress unavoidable warning for the signal handler parameter.
+export CXXFLAGS = -O2 -std=c++17 -Wall -Wextra -Werror -Wno-unused-parameter
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) src/main.cpp -o release-test -lfmt
+
+override_dh_auto_clean:
+	rm -f release-test
+
+override_dh_auto_install:
+	# dh_install will install files listed in debian/*.install
+	:
+
+override_dh_installsystemd:
+	dh_installsystemd --restart-after-upgrade

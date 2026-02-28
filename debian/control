@@ -1,0 +1,13 @@
+Source: release-test
+Section: utils
+Priority: optional
+Maintainer: Release Engineering Test <noreply@example.invalid>
+Build-Depends: debhelper-compat (= 13), g++, libfmt-dev
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+
+Package: release-test
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Small demo service that prints "Alive" every 5 seconds
+ release-test is a tiny C++ program used for build/release packaging exercises.

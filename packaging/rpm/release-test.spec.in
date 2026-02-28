@@ -1,0 +1,51 @@
+Name:           release-test
+Version:        @VERSION@
+Release:        1%{?dist}
+Summary:        Small demo service that prints "Alive" every 5 seconds
+
+License:        UNLICENSED
+Source0:        %{name}-%{version}.tar.gz
+
+BuildRequires:  gcc-c++
+BuildRequires:  make
+BuildRequires:  fmt-devel
+BuildRequires:  systemd-rpm-macros
+
+Requires:       fmt
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
+
+%description
+release-test is a tiny C++ program used for build/release packaging exercises.
+
+%prep
+%autosetup -n %{name}-%{version}
+
+%build
+%{__cxx} -O2 -std=c++17 -Wall -Wextra -Werror -Wno-unused-parameter \
+  src/main.cpp -o %{name} -lfmt
+
+%install
+rm -rf %{buildroot}
+
+install -D -m 0755 %{name} %{buildroot}%{_bindir}/%{name}
+install -D -m 0644 packaging/systemd/%{name}.service %{buildroot}%{_unitdir}/%{name}.service
+
+%post
+%systemd_post %{name}.service
+
+%preun
+%systemd_preun %{name}.service
+
+%postun
+%systemd_postun_with_restart %{name}.service
+
+%files
+#%%doc README.md
+%{_bindir}/%{name}
+%{_unitdir}/%{name}.service
+
+%changelog
+* Thu Feb 26 2026 Eduard Basov <ebasov@ispmanager.com> - 1.0-1
+- Init Build For Ispmanager
