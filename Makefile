@@ -53,7 +53,7 @@ pkg-deb:
 	work="$(BUILD_DIR)/deb/$${name}-$${ver}"; \
 	rm -rf "$${work}"; mkdir -p "$${work}"; \
 	tar --exclude='./$(BUILD_DIR)' --exclude='./$(DIST_DIR)' -cf - . | (cd "$${work}" && tar -xf -); \
-	./packaging/debian/gen-changelog.sh "$${name}" "$${ver}" > "$${work}/debian/changelog"; \
+	bash ./packaging/debian/gen-changelog.sh "$${name}" "$${ver}" > "$${work}/debian/changelog"; \
 	(cd "$${work}" && dpkg-buildpackage -us -uc -b); \
 	find "$(BUILD_DIR)/deb" -maxdepth 1 -type f -name "*.deb" -exec cp -v {} "$(DIST_DIR)/" \;
 
