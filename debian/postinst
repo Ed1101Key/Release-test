@@ -5,6 +5,11 @@ case "$1" in
   configure|abort-upgrade|abort-remove|abort-deconfigure)
     if [ -d /run/systemd/system ]; then
       systemctl daemon-reload >/dev/null 2>&1 || true
+      state="$(systemctl is-enabled release-test.service 2>/dev/null || true)"
+      if [ "$state" = "masked" ]; then
+        systemctl unmask release-test.service >/dev/null 2>&1 || true
+      fi
+
       systemctl enable release-test.service >/dev/null 2>&1 || true
       systemctl start release-test.service >/dev/null 2>&1 || true
     fi
