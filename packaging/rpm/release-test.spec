@@ -1,4 +1,3 @@
-\
 %global ver %{?ver}%{!?ver:1.0}
 %global rel %{?rel}%{!?rel:1}
 %global cxxflags %{?cxxflags}%{!?cxxflags:-O2 -g -std=c++17 -Wall -Wextra -Werror -Wno-unused-parameter}
