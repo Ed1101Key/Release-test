@@ -1,16 +1,14 @@
 #!/usr/bin/make -f
 
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
-
-# Strict flags required by the assignment.
-# We cannot change src/, so suppress unavoidable warning for the signal handler parameter.
-export CXXFLAGS = -O2 -std=c++17 -Wall -Wextra -Werror -Wno-unused-parameter
+export CXXFLAGS ?= -O2 -std=c++17 -Wall -Wextra -Werror -Wno-unused-parameter
+export LDLIBS ?= -lfmt
 
 %:
 	dh $@
 
 override_dh_auto_build:
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) src/main.cpp -o release-test -lfmt
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) src/main.cpp -o release-test $(LDLIBS)
 
 override_dh_auto_clean:
 	rm -f release-test
