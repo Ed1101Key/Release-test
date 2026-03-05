@@ -32,14 +32,10 @@ OS_LIKE := $(shell . /etc/os-release 2>/dev/null; echo $$ID_LIKE)
 DEB_IDS := debian ubuntu
 RPM_IDS := rhel fedora centos almalinux rocky
 
-ifeq ($(PKG_TYPE),)
-  ifneq ($(filter $(DEB_IDS),$(OS_ID) $(OS_LIKE)),)
-    PKG_TYPE := deb
-  else ifneq ($(filter $(RPM_IDS),$(OS_ID) $(OS_LIKE)),)
-    PKG_TYPE := rpm
-  else
-    PKG_TYPE := deb
-  endif
+ifneq ($(filter $(DEB_IDS),$(OS_ID) $(OS_LIKE)),)
+PKG_TYPE := deb
+else ifneq ($(filter $(RPM_IDS),$(OS_ID) $(OS_LIKE)),)
+PKG_TYPE := rpm
 endif
 
 .PHONY: help clean pkg deps pkg-deb pkg-rpm deps-deb deps-rpm
